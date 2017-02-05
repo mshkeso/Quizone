@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     CategoryFragment categoryFragment;
     DifficultyFragment difficultyFragment;
     QuizFragment quizFragment;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
