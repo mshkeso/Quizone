@@ -1,10 +1,12 @@
 package com.example.keso.quizone;
 
+import java.io.Serializable;
+
 /**
  * Created by KESO on 05/02/2017.
  */
 
-public class User {
+public class User implements Serializable{
     private int id;
     private String username;
     private String email;
