@@ -10,14 +10,13 @@
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
-            android:max="400"
+            android:max="390"
             android:progress="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/progressBar" />
 
         <TextView
-            android:text="Vem är bäst?"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
@@ -46,7 +45,6 @@
         android:layout_weight="1">
 
         <Button
-            android:text="Mikael"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="fill"
@@ -54,7 +52,6 @@
             android:id="@+id/button11" />
 
         <Button
-            android:text="KESO"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="fill"
@@ -68,7 +65,6 @@
         android:layout_weight="1">
 
         <Button
-            android:text="Micke"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -76,7 +72,6 @@
             android:id="@+id/button9"/>
 
         <Button
-            android:text="Mad Mike"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="fill"

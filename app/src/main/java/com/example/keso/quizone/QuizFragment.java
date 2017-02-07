@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import java.util.Collections;
 public class QuizFragment extends Fragment implements View.OnClickListener{
 
     ProgressBar mProgressBar;
-    ObjectAnimator animation;
     ArrayList<Question> questions = new ArrayList<>();
     Button b1;
     Button b2;
@@ -33,10 +33,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     Button b4;
     TextView question;
     TextView displayQNumber;
-    int index =0;
-    int i=0;
+    int index = 0;
+    int progress = 0;
     Question currentQuestion;
     Drawable bgDefault;
+    CountDownTimer timer;
+    final int length_in_milliseconds = 10000;
+    final int period_in_milliseconds = 25;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +49,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
         questions = getArguments().getParcelableArrayList("Questions");
         mProgressBar=(ProgressBar)v.findViewById(R.id.progressBar);
+        mProgressBar.setProgress(progress);
         question = (TextView) v.findViewById(R.id.textView);
         displayQNumber = (TextView) v.findViewById(R.id.textView2);
         b1 = (Button) v.findViewById(R.id.button11);
@@ -72,6 +76,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+        stopButtons();
         return v;
     }
 
@@ -81,14 +86,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void startQuiz() {
         prepareQuestion();
-        startTimer();
     }
 
     private void nextQuestion(){
         index++;
         if(index!=10){
             prepareQuestion();
-            startTimer();
         }else{
             endQuiz();
         }
@@ -113,6 +116,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         b3.setText(choices.get(2));
         b4.setText(choices.get(3));
         question.setText(currentQuestion.getText());
+        startTimer();
     }
 
     private void falseAnswer(Button b) {
@@ -162,36 +166,81 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void startTimer(){
-        animation = ObjectAnimator.ofInt(mProgressBar, "progress", 0, 500);
-        animation.setDuration(20000);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.addListener(new Animator.AnimatorListener() {
+        progress=0;
+        timer = new CountDownTimer(length_in_milliseconds,period_in_milliseconds) {
+            private boolean warned = false;
             @Override
-            public void onAnimationStart(Animator animator) { }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                //do something when the countdown is complete
+            public void onTick(long millisUntilFinished) {
+                progress++;
+                mProgressBar.setProgress(progress);
             }
 
             @Override
-            public void onAnimationCancel(Animator animator) { }
+            public void onFinish() {
+                progress++;
+                mProgressBar.setProgress(progress);
+                stopButtons();
+                noAnswer();
+            }
+        };
+        timer.start();
+        startButtons();
+    }
 
+    private void noAnswer() {
+        final long changeTime = 1000L;
+        b1.postDelayed(new Runnable() {
             @Override
-            public void onAnimationRepeat(Animator animator) { }
-        });
-        animation.start();
+            public void run() {
+                //b.setBackgroundResource(bgDefault);
+                if(b1.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
+                    b1.setBackgroundColor(getResources().getColor(R.color.green));
+                }else if(b2.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
+                    b2.setBackgroundColor(getResources().getColor(R.color.green));
+                }else if(b3.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
+                    b3.setBackgroundColor(getResources().getColor(R.color.green));
+                }else if(b4.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
+                    b4.setBackgroundColor(getResources().getColor(R.color.green));
+                }
+                b1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        b1.setBackground(bgDefault);
+                        b2.setBackground(bgDefault);
+                        b3.setBackground(bgDefault);
+                        b4.setBackground(bgDefault);
+                        nextQuestion();
+                    }
+                }, changeTime);
+            }
+        }, changeTime);
     }
 
     @Override
     public void onClick(View v) {
-        animation.cancel();
+        timer.cancel();
+        stopButtons();
         Button b = (Button) v;
         String a =b.getText().toString();
+        stopButtons();
         if(a.equalsIgnoreCase(currentQuestion.getAnswer())){
             correctAnswer(b);
         }else{
             falseAnswer(b);
         }
+    }
+
+    private void stopButtons() {
+        b1.setEnabled(false);
+        b2.setEnabled(false);
+        b3.setEnabled(false);
+        b4.setEnabled(false);
+    }
+
+    private void startButtons() {
+        b1.setEnabled(true);
+        b2.setEnabled(true);
+        b3.setEnabled(true);
+        b4.setEnabled(true);
     }
 }
