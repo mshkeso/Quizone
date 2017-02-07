@@ -8,19 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button5"
-        android:onClick="startQuiz"/>
+        android:onClick="choseDifficulty"/>
 
     <Button
         android:text="Medel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button6"
-        android:onClick="startQuiz" />
+        android:onClick="choseDifficulty" />
 
     <Button
         android:text="Svår"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button7"
-        android:onClick="startQuiz" />
+        android:onClick="choseDifficulty" />
 </LinearLayout>

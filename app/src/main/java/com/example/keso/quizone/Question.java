@@ -1,10 +1,13 @@
 package com.example.keso.quizone;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by KESO on 02/02/2017.
  */
 
-public class Question {
+public class Question implements Parcelable{
     private String text;
     private int id;
     private String answer;
@@ -19,6 +22,16 @@ public class Question {
         this.badAnswer1 = badAnswer1;
         this.badAnswer2 = badAnswer2;
         this.badAnswer3 = badAnswer3;
+    }
+
+    public Question(Parcel parcel) {
+        this.text = parcel.readString();
+        this.id = parcel.readInt();
+        this.answer = parcel.readString();
+        this.badAnswer1 = parcel.readString();
+        this.badAnswer2 = parcel.readString();
+        this.badAnswer3 = parcel.readString();
+
     }
 
     public String getText() {
@@ -68,4 +81,34 @@ public class Question {
     public void setBadAnswer3(String badAnswer3) {
         this.badAnswer3 = badAnswer3;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(text);
+        dest.writeInt(id);
+        dest.writeString(answer);
+        dest.writeString(badAnswer1);
+        dest.writeString(badAnswer2);
+        dest.writeString(badAnswer3);
+    }
+
+    // Method to recreate a Question from a Parcel
+    public static Creator<Question> CREATOR = new Creator<Question>() {
+
+        @Override
+        public Question createFromParcel(Parcel source) {
+            return new Question(source);
+        }
+
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+
+    };
 }

@@ -44,8 +44,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_question, container, false);
 
-        createTestQuestions();
-
+        questions = getArguments().getParcelableArrayList("Questions");
         mProgressBar=(ProgressBar)v.findViewById(R.id.progressBar);
         question = (TextView) v.findViewById(R.id.textView);
         displayQNumber = (TextView) v.findViewById(R.id.textView2);
@@ -96,7 +95,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void endQuiz() {
-
+        end();
     }
 
     private void prepareQuestion() {
@@ -183,20 +182,6 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         });
         animation.start();
     }
-
-    private void createTestQuestions() {
-        questions.add(new Question("1+2", 1, "3", "0","2","4"));
-        questions.add(new Question("4+2", 2, "6", "5","7","8"));
-        questions.add(new Question("1+3", 3, "4", "2","3","5"));
-        questions.add(new Question("2-1", 4, "1", "0","2","4"));
-        questions.add(new Question("20/5", 5, "4", "5","2","3"));
-        questions.add(new Question("10+10", 6, "20", "30","50","40"));
-        questions.add(new Question("1+7", 7, "8", "9","7","4"));
-        questions.add(new Question("0+2", 8, "2", "0","3","4"));
-        questions.add(new Question("1*2", 9, "2", "0","3","4"));
-        questions.add(new Question("4*0", 10, "0", "3","2","4"));
-    }
-
 
     @Override
     public void onClick(View v) {
