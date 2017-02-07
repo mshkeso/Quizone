@@ -2,9 +2,11 @@ package com.example.keso.quizone;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -13,9 +15,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -24,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +61,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private User user;
+    private AlertDialog dialog;
+    private AutoCompleteTextView rUsername;
+    private AutoCompleteTextView rEmail;
+    private EditText rPassword1;
+    private EditText rPassword2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +94,63 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+        Button mRegisterButton = (Button) findViewById(R.id.register);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRegister();
+            }
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void showRegister() {
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.register, null);
+        rUsername = (AutoCompleteTextView) v.findViewById(R.id.rUsername);
+        rEmail = (AutoCompleteTextView) v.findViewById(R.id.rEmail);
+        rPassword1 = (EditText) v.findViewById(R.id.rPassword1);
+        rPassword2 = (EditText) v.findViewById(R.id.rPassword2);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Registrera nytt konto");
+        builder.setPositiveButton("Registrera", null);
+        builder.setNegativeButton("Avbryt", null);
+        builder.setView(v);
+
+        dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface asd) {
+                Button b = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if(TextUtils.isEmpty(rUsername.getText().toString())){
+                            rUsername.setError(getString(R.string.error_field_required));
+                            rUsername.requestFocus();
+                        }else if(TextUtils.isEmpty(rEmail.getText().toString())){
+                            rEmail.setError(getString(R.string.error_field_required));
+                            rEmail.requestFocus();
+                        }else if(!(rPassword1.getText().toString().equals(rPassword2.getText().toString()))){
+                            rPassword2.setError("Lösenorden stämmer ej överens");
+                            rPassword2.requestFocus();
+                        }else if(!TextUtils.isEmpty(rPassword1.getText().toString()) && !isPasswordValid(rPassword1.getText().toString())){
+                            rPassword1.setError(getString(R.string.error_invalid_password));
+                            rPassword1.requestFocus();
+                        }else{
+                            showProgress(true);
+                            UserRegisterTask task = new UserRegisterTask(rUsername.getText().toString(), rPassword1.getText().toString(), rEmail.getText().toString() );
+                            task.execute();
+                        }
+                    }
+                });
+            }
+        });
+        dialog.show();
     }
 
     /**
@@ -120,10 +186,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mUsername.setError(getString(R.string.error_field_required));
             focusView = mUsername;
             cancel = true;
-        } else if (!isEmailValid(username)) {
-            mUsername.setError(getString(R.string.error_invalid_email));
-            focusView = mUsername;
-            cancel = true;
         }
 
         if (cancel) {
@@ -139,14 +201,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return true;
-    }
-
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 3;
+        return password.length() > 3 && password.length() < 16;
     }
 
     /**
@@ -249,6 +305,64 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String message = "message";
         intent.putExtra("Mess", message);
         startActivity(intent);
+    }
+
+
+
+    public class UserRegisterTask extends AsyncTask<String, Void, String> {
+
+        private final String mUsername;
+        private final String mPassword;
+        private final String mEmail;
+
+        UserRegisterTask(String username, String password, String email) {
+            mUsername = username;
+            mPassword = password;
+            mEmail = email;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String inputString = null;
+            try {
+                URL url = new URL(String.format("http://185.53.129.12/register.php?username="+mUsername+"&password="+mPassword+"&email="+mEmail));
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+
+                inputString = bufferedReader.readLine();
+
+
+                urlConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return inputString;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+
+            showProgress(false);
+            if(response.equals("Username exists")){
+                rUsername.setError("Användarnamn upptaget");
+                rUsername.requestFocus();
+            }else if(response.equals("Email exists")){
+                rEmail.setError("Email upptaget");
+                rEmail.requestFocus();
+            }else if(response.equals("1")){
+                dialog.cancel();
+                Toast.makeText(getApplicationContext(), "Registrerad!", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
     }
 
     /**
