@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainFragment = new MainFragment();
         categoryFragment = new CategoryFragment();
-        quizFragment = new QuizFragment();
         difficultyFragment = new DifficultyFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -101,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startQuiz(){
-         createTestQuestions();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("Questions", questions);
+        quizFragment = new QuizFragment();
         quizFragment.setArguments(bundle);
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, quizFragment)
@@ -111,27 +110,17 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void createTestQuestions() {
-        questions.add(new Question("1+2", 1, "3", "0","2","4"));
-        questions.add(new Question("4+2", 2, "6", "5","7","8"));
-        questions.add(new Question("1+3", 3, "4", "2","3","5"));
-        questions.add(new Question("2-1", 4, "1", "0","2","4"));
-        questions.add(new Question("20/5", 5, "4", "5","2","3"));
-        questions.add(new Question("10+10", 6, "20", "30","50","40"));
-        questions.add(new Question("1+7", 7, "8", "9","7","4"));
-        questions.add(new Question("0+2", 8, "2", "0","3","4"));
-        questions.add(new Question("1*2", 9, "2", "0","3","4"));
-        questions.add(new Question("4*0", 10, "0", "3","2","4"));
-    }
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if(categoryFragment.isVisible()){
             setTitle("Kategori");
+            super.onBackPressed();
         }
         if(mainFragment.isVisible()){
             setTitle("Quizone");
+            super.onBackPressed();
+        }
+        if(quizFragment.isVisible()){
         }
     }
 
@@ -170,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
             mFragmentView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+
 
     public class FetchQuestions extends AsyncTask<String, Void, JSONObject> {
 

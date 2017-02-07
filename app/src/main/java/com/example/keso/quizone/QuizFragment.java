@@ -82,6 +82,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void end(){
         getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     private void startQuiz() {
