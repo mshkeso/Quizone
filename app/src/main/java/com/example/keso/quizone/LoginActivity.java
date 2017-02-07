@@ -302,8 +302,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             e.printStackTrace();
         }
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        String message = "message";
-        intent.putExtra("Mess", message);
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 
@@ -385,7 +384,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             try {
                     URL url = new URL(String.format("http://185.53.129.12/login.php?username="+mUsername+"&password="+mPassword));
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
                 InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder builder = new StringBuilder();
