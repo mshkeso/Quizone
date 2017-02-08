@@ -5,23 +5,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-/**
- * Created by KESO on 02/02/2017.
- */
 
 public class QuizFragment extends Fragment implements View.OnClickListener{
 
@@ -105,7 +99,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     private void prepareQuestion() {
         animationStopper();
         currentQuestion = questions.get(index);
-        displayQNumber.setText((index+1)+"/10");
+        String displayText = (index+1)+getString(R.string.quiz_count);
+        displayQNumber.setText(displayText);
         ArrayList<String> choices = new ArrayList<>();
         choices.add(currentQuestion.getAnswer());
         choices.add(currentQuestion.getBadAnswer1());
@@ -123,7 +118,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void falseAnswer(Button b) {
         animationStopper();
-        b.setBackgroundColor(getResources().getColor(R.color.red));
+        b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.red));
         final long changeTime = 1000L;
         b.postDelayed(new Runnable() {
             @Override
@@ -131,13 +126,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 animationStopper();
                 //b.setBackgroundResource(bgDefault);
                 if(b1.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b1.setBackgroundColor(getResources().getColor(R.color.green));
+                    b1.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }else if(b2.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b2.setBackgroundColor(getResources().getColor(R.color.green));
+                    b2.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }else if(b3.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b3.setBackgroundColor(getResources().getColor(R.color.green));
+                    b3.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }else if(b4.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b4.setBackgroundColor(getResources().getColor(R.color.green));
+                    b4.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }
                 animationStopper();
                 b1.postDelayed(new Runnable() {
@@ -159,7 +154,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void correctAnswer(Button b) {
         animationStopper();
-        b.setBackgroundColor(getResources().getColor(R.color.green));
+        b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
         final long changeTime = 1000L;
         b.postDelayed(new Runnable() {
             @Override
@@ -204,13 +199,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
             public void run() {
                 //b.setBackgroundResource(bgDefault);
                 if(b1.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b1.setBackgroundColor(getResources().getColor(R.color.green));
+                    b1.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }else if(b2.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b2.setBackgroundColor(getResources().getColor(R.color.green));
+                    b2.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }else if(b3.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b3.setBackgroundColor(getResources().getColor(R.color.green));
+                    b3.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }else if(b4.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
-                    b4.setBackgroundColor(getResources().getColor(R.color.green));
+                    b4.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
                 }
                 animationStopper();
                 b1.postDelayed(new Runnable() {
