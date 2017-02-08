@@ -1,7 +1,5 @@
 package com.example.keso.quizone;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,8 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -103,6 +103,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void prepareQuestion() {
+        animationStopper();
         currentQuestion = questions.get(index);
         displayQNumber.setText((index+1)+"/10");
         ArrayList<String> choices = new ArrayList<>();
@@ -121,11 +122,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void falseAnswer(Button b) {
+        animationStopper();
         b.setBackgroundColor(getResources().getColor(R.color.red));
         final long changeTime = 1000L;
         b.postDelayed(new Runnable() {
             @Override
             public void run() {
+                animationStopper();
                 //b.setBackgroundResource(bgDefault);
                 if(b1.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
                     b1.setBackgroundColor(getResources().getColor(R.color.green));
@@ -136,14 +139,17 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 }else if(b4.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
                     b4.setBackgroundColor(getResources().getColor(R.color.green));
                 }
+                animationStopper();
                 b1.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        animationStopper();
                         b1.setBackground(bgDefault);
                         b2.setBackground(bgDefault);
                         b3.setBackground(bgDefault);
                         b4.setBackground(bgDefault);
                         nextQuestion();
+                        animationStopper();
                     }
                 }, changeTime);
             }
@@ -152,6 +158,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void correctAnswer(Button b) {
+        animationStopper();
         b.setBackgroundColor(getResources().getColor(R.color.green));
         final long changeTime = 1000L;
         b.postDelayed(new Runnable() {
@@ -162,11 +169,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 b3.setBackground(bgDefault);
                 b4.setBackground(bgDefault);
                 nextQuestion();
+                animationStopper();
             }
         }, changeTime);
     }
 
     private void startTimer(){
+        animationStopper();
         progress=0;
         timer = new CountDownTimer(length_in_milliseconds,period_in_milliseconds) {
             private boolean warned = false;
@@ -203,6 +212,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 }else if(b4.getText().toString().equalsIgnoreCase(currentQuestion.getAnswer())){
                     b4.setBackgroundColor(getResources().getColor(R.color.green));
                 }
+                animationStopper();
                 b1.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -210,15 +220,23 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                         b2.setBackground(bgDefault);
                         b3.setBackground(bgDefault);
                         b4.setBackground(bgDefault);
+                        animationStopper();
                         nextQuestion();
                     }
                 }, changeTime);
             }
         }, changeTime);
     }
+    public void animationStopper(){
+        b1.clearAnimation();
+        b2.clearAnimation();
+        b3.clearAnimation();
+        b4.clearAnimation();
+    }
 
     @Override
     public void onClick(View v) {
+        animationStopper();
         timer.cancel();
         stopButtons();
         Button b = (Button) v;

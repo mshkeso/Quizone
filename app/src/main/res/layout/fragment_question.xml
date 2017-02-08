@@ -29,7 +29,7 @@
             android:layout_alignParentBottom="true" />
 
         <TextView
-            android:text="1/10"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/progressBar"
@@ -45,19 +45,36 @@
         android:layout_weight="1">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="10dp"
             android:layout_height="fill_parent"
             android:layout_gravity="fill"
-            android:layout_weight="1"
+            android:textSize="12sp"
+            android:layout_weight="0.5"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/button11" />
 
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@color/gray"/>
+
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="10dp"
             android:layout_height="fill_parent"
             android:layout_gravity="fill"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
+            android:textSize="12sp"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/button8" />
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0"
+        android:layout_margin="1dp"
+        android:background="@color/gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,17 +82,25 @@
         android:layout_weight="1">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_gravity="fill"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="12sp"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/button9"/>
 
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@color/gray"/>
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="fill"
-            android:layout_weight="1"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="12sp"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/button10" />
     </LinearLayout>
 
