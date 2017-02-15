@@ -43,6 +43,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A login screen that offers login via email/password.
@@ -131,12 +133,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         if(TextUtils.isEmpty(rUsername.getText().toString())){
                             rUsername.setError(getString(R.string.error_field_required));
                             rUsername.requestFocus();
+                        }else if(!TextUtils.isEmpty(rUsername.getText().toString()) && !isUsernameValid(rUsername.getText().toString())){
+                            rUsername.setError(getString(R.string.error_invalid_username));
+                            rUsername.requestFocus();
                         }else if(TextUtils.isEmpty(rEmail.getText().toString())){
                             rEmail.setError(getString(R.string.error_field_required));
                             rEmail.requestFocus();
                         }else if(!TextUtils.isEmpty(rEmail.getText().toString()) && !isEmailValid(rEmail.getText().toString())){
                             rEmail.setError(getString(R.string.error_invalid_email));
                             rEmail.requestFocus();
+                        }else if(TextUtils.isEmpty(rPassword1.getText().toString())){
+                            rPassword1.setError(getString(R.string.error_field_required));
+                            rPassword1.requestFocus();
+                        }else if(TextUtils.isEmpty(rPassword2.getText().toString())){
+                            rPassword2.setError(getString(R.string.error_field_required));
+                            rPassword2.requestFocus();
                         }else if(!(rPassword1.getText().toString().equals(rPassword2.getText().toString()))){
                             rPassword2.setError("Lösenorden stämmer ej överens");
                             rPassword2.requestFocus();
@@ -181,17 +192,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mUsername.setError(getString(R.string.error_field_required));
             focusView = mUsername;
             cancel = true;
-        }
-
-
-        if (!TextUtils.isEmpty(password)) {
+        }else if(!TextUtils.isEmpty(username) && !isUsernameValid(username)){
+            mUsername.setError(getString(R.string.error_invalid_username));
+            focusView = mUsername;
+            cancel = true;
+        }else if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
-        }
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        }else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -211,11 +220,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 3 && password.length() < 16;
+        Pattern ps = Pattern.compile("^[a-zA-Z]+$");
+        Matcher ms = ps.matcher(password);
+        boolean response = ms.matches();
+        if(password.length() < 4 || password.length() > 15){
+            response = false;
+        }
+        return response;
     }
 
     private boolean isEmailValid(String email){
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isUsernameValid(String username) {
+        Pattern ps = Pattern.compile("^[a-zA-Z]+$");
+        Matcher ms = ps.matcher(username);
+        boolean response = ms.matches();
+        if(username.length() < 4 || username.length() > 15){
+            response = false;
+        }
+
+        return response;
     }
 
     /**
