@@ -7,11 +7,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, difficultyFragment)
                 .addToBackStack("difficulty")
                 .commit();
-        if(text.equals("Naturvetenskap")){
+        if(text.equals("Film")){
             category = 1;
-        }else if(text.equals("Försvaret")){
+        }else if(text.equals("Musik")){
             category = 2;
         }else if(text.equals("Sport")){
             category = 3;
