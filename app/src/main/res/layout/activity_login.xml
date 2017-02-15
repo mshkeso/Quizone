@@ -11,6 +11,7 @@
     tools:context="com.example.keso.quizone.LoginActivity">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -80,6 +81,14 @@
                 android:id="@+id/register"
                 android:textStyle="bold" />
 
+            <TextView
+                android:text="Version 0.1.7"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4" />
+
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
