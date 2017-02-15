@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="Naturvetenskap"
+        android:text="Film"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button2"
         android:onClick="choseCategory"/>
 
     <Button
-        android:text="Försvaret"
+        android:text="Musik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button3"
