@@ -2,7 +2,6 @@ package com.example.keso.quizone;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -15,10 +14,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,6 +134,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }else if(TextUtils.isEmpty(rEmail.getText().toString())){
                             rEmail.setError(getString(R.string.error_field_required));
                             rEmail.requestFocus();
+                        }else if(!TextUtils.isEmpty(rEmail.getText().toString()) && !isEmailValid(rEmail.getText().toString())){
+                            rEmail.setError(getString(R.string.error_invalid_email));
+                            rEmail.requestFocus();
                         }else if(!(rPassword1.getText().toString().equals(rPassword2.getText().toString()))){
                             rPassword2.setError("Lösenorden stämmer ej överens");
                             rPassword2.requestFocus();
@@ -174,6 +176,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
+        // Check for a valid username address.
+        if (TextUtils.isEmpty(username)) {
+            mUsername.setError(getString(R.string.error_field_required));
+            focusView = mUsername;
+            cancel = true;
+        }
+
+
+        if (!TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
@@ -181,12 +197,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-        // Check for a valid username address.
-        if (TextUtils.isEmpty(username)) {
-            mUsername.setError(getString(R.string.error_field_required));
-            focusView = mUsername;
-            cancel = true;
-        }
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -203,6 +214,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         return password.length() > 3 && password.length() < 16;
+    }
+
+    private boolean isEmailValid(String email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     /**
