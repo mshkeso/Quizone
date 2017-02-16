@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);Intent i = getIntent();
+        super.onCreate(savedInstanceState);
+        Intent i = getIntent();
         user = (User) i.getSerializableExtra("User");
         setContentView(R.layout.activity_main);
         mainFragment = new MainFragment();
@@ -115,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void testResult(View v){
         Result result = new Result();
-        result.setCategory(1);
-        result.setDifficulty(1);
+        result.setCategory(3);
+        result.setDifficulty(3);
         result.addResult(23);
         result.addResult(33);
         result.addResult(43);

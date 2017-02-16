@@ -158,7 +158,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void correctAnswer(Button b) {
-        result.addResult(progress/10);
+        result.addResult(progress/4);
         animationStopper();
         b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
         final long changeTime = 1000L;

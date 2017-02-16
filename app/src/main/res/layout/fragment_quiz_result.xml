@@ -13,7 +13,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvCategory"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="20sp" />
 
         <TextView
             android:text="Svårighetsgrad: Lätt"
@@ -21,12 +23,27 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:id="@+id/tvDifficulty"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="20sp" />
 
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:layout_margin="1dp"
+        android:background="@color/gray"/>
     <ListView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:id="@+id/listView" />
+
+    <Button
+        android:text="Klar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btDone" />
 </LinearLayout>
