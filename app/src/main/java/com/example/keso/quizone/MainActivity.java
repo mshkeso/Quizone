@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mainFragment = new MainFragment();
         categoryFragment = new CategoryFragment();
         difficultyFragment = new DifficultyFragment();
+        quizResultFragment = new QuizResultFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mainFragment)
@@ -116,20 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void testResult(View v){
-        Result result = new Result();
-        result.setCategory(3);
-        result.setDifficulty(3);
-        result.addResult(23);
-        result.addResult(33);
-        result.addResult(43);
-        result.addResult(53);
-        result.addResult(100);
-        result.addResult(73);
-        result.addResult(83);
-        result.addResult(93);
-        result.addResult(23);
-        result.addResult(3);
+    public void showQuizResult(Result result){
         Bundle bundle = new Bundle();
         bundle.putSerializable("Result", result);
         quizResultFragment = new QuizResultFragment();
@@ -150,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(quizFragment.isVisible()){
+        }else if(quizResultFragment.isVisible()){
         }else{
             super.onBackPressed();
         }
