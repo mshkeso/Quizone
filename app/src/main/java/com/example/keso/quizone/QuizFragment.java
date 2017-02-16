@@ -35,6 +35,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     Result result;
     final int length_in_milliseconds = 10000;
     final int period_in_milliseconds = 25;
+    AlertDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +60,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         b3.setOnClickListener(this);
         b4.setOnClickListener(this);
         bgDefault = b1.getBackground();
-        new AlertDialog.Builder(getContext())
+        dialog = new AlertDialog.Builder(getContext())
                 .setTitle("Starta quiz?")
                 .setMessage("Är du redo att starta frågesporten?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -69,18 +70,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        end();
+                        getFragmentManager().popBackStack();
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
         stopButtons();
         return v;
-    }
-
-    private void end(){
-        getActivity().getSupportFragmentManager().popBackStack();
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     private void startQuiz() {
@@ -97,8 +93,16 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void endQuiz() {
-        end();
+        QuizResultFragment quizResultFragment = new QuizResultFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Result", result);
+        quizResultFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, quizResultFragment)
+                .addToBackStack("quizResult")
+                .commit();
     }
+
 
     private void prepareQuestion() {
         animationStopper();
@@ -118,6 +122,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         b4.setText(choices.get(3));
         question.setText(currentQuestion.getText());
         startTimer();
+    }
+
+    @Override
+    public void onPause() {
+        dialog.cancel();
+        super.onPause();
     }
 
     private void falseAnswer(Button b) {
@@ -158,7 +168,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void correctAnswer(Button b) {
-        result.addResult(progress/4);
+        result.addResult(100-(progress/4));
         animationStopper();
         b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
         final long changeTime = 1000L;

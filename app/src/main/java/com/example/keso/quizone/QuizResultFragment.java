@@ -1,6 +1,7 @@
 package com.example.keso.quizone;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +29,8 @@ public class QuizResultFragment extends Fragment {
 
     TextView category;
     TextView difficulty;
+    TextView total;
+    TextView score;
     ListView resultList;
     Result result;
 
@@ -31,10 +41,16 @@ public class QuizResultFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_quiz_result, container, false);
         category = (TextView) v.findViewById(R.id.tvCategory);
         difficulty = (TextView) v.findViewById(R.id.tvDifficulty);
+        total = (TextView) v.findViewById(R.id.tvTotal);
+        score = (TextView) v.findViewById(R.id.tvScore);
         resultList = (ListView) v.findViewById(R.id.listView);
         result = (Result) getArguments().getSerializable("Result");
-        setCatNDiff();
+        result.calculateTotal();
+        setTopInfo();
         populateList();
+        ((MainActivity)getActivity()).showProgress(true);
+        SaveResult task = new SaveResult(result);
+        task.execute();
         return v;
     }
 
@@ -43,9 +59,11 @@ public class QuizResultFragment extends Fragment {
         resultList.setAdapter(adapter);
     }
 
-    private void setCatNDiff() {
+    private void setTopInfo() {
         String sCategory = "Kategori: ";
         String sDifficulty = "Svårighetsgrad: ";
+        String sTotal = "Total poäng: "+result.getTotal();
+        int count = 0;
         if(result.getCategory()==1){
             sCategory += "Film";
         }else if(result.getCategory()==2){
@@ -60,8 +78,18 @@ public class QuizResultFragment extends Fragment {
         }else if(result.getDifficulty()==3){
             sDifficulty += "Svår";
         }
+        int tot = 0;
+        for(int i = 0; i<result.getResult().size();i++){
+            tot++;
+            if(result.getSpecificResult(i)!=0){
+                count++;
+            }
+        }
+        String sScore = "Antal rätt: "+count+" av "+tot;
         category.setText(sCategory);
         difficulty.setText(sDifficulty);
+        total.setText(sTotal);
+        score.setText(sScore);
     }
 
     public class ResultAdapter extends ArrayAdapter<Integer>{
@@ -105,4 +133,65 @@ public class QuizResultFragment extends Fragment {
             return convertView;
         }
     }
+
+
+    public class SaveResult extends AsyncTask<String, Void, String> {
+
+        private final Result result;
+
+        SaveResult(Result result) {
+            this.result = result;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String inputString = null;
+            try {
+                URL url = new URL(String.format("http://185.53.129.12/saveresult.php?userid="+result.getUserid()+
+                        "&r1="+result.getSpecificResult(0)+
+                        "&r2="+result.getSpecificResult(1)+
+                        "&r3="+result.getSpecificResult(2)+
+                        "&r4="+result.getSpecificResult(3)+
+                        "&r5="+result.getSpecificResult(4)+
+                        "&r6="+result.getSpecificResult(5)+
+                        "&r7="+result.getSpecificResult(6)+
+                        "&r8="+result.getSpecificResult(7)+
+                        "&r9="+result.getSpecificResult(8)+
+                        "&r10="+result.getSpecificResult(9)+
+                        "&total="+result.getTotal() +
+                        "&difficulty="+result.getDifficulty() +
+                        "&category=4"+result.getCategory()));
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+
+                inputString = bufferedReader.readLine();
+
+
+                urlConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return inputString;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+
+            ((MainActivity)getActivity()).showProgress(false);
+            int iResponse = Integer.parseInt(response);
+            if(iResponse>0){
+                result.setId(iResponse);
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            ((MainActivity)getActivity()).showProgress(false);
+        }
+    }
+
+
 }

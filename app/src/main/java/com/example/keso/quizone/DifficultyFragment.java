@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 /**
  * Created by KESO on 02/02/2017.
  */
-public class DifficultyFragment extends Fragment
-
-{
+public class DifficultyFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -20,6 +18,10 @@ public class DifficultyFragment extends Fragment
         View v = inflater.inflate(R.layout.fragment_difficulty, container, false);
         return v;
     }
-
+    @Override
+    public void onResume() {
+        getActivity().setTitle("Svårighetsgrad");
+        super.onResume();
+    }
 
 }

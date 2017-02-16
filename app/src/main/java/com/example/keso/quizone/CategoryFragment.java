@@ -9,17 +9,18 @@ import android.view.ViewGroup;
 /**
  * Created by KESO on 02/02/2017.
  */
-public class CategoryFragment extends Fragment
+public class CategoryFragment extends Fragment{
 
-    {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_category, container, false);
         return v;
     }
 
-
+    @Override
+    public void onResume() {
+            getActivity().setTitle("Kategori");
+            super.onResume();
     }
+}

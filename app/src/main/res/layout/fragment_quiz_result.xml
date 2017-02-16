@@ -29,6 +29,32 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvScore"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:id="@+id/tvTotal"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="20sp" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="3dip"
@@ -45,5 +71,6 @@
         android:text="Klar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btDone" />
+        android:id="@+id/btDone"
+        android:onClick="quizResultDone" />
 </LinearLayout>

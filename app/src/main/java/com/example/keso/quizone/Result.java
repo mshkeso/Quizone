@@ -66,4 +66,11 @@ public class Result implements Serializable {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    public void calculateTotal(){
+        total = 0;
+        for(int i = 0; i<result.size(); i++){
+            total+=result.get(i);
+        }
+    }
 }

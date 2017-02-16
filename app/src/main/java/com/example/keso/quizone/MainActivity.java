@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         mFragmentView = findViewById(R.id.fragment_container);
         mProgressView = findViewById(R.id.quiz_progress);
+        quizFragment = new QuizFragment();
     }
 
 
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             difficulty = 3;
         }
         showProgress(true);
+        questions = new ArrayList<>();
         FetchQuestions task = new FetchQuestions(category, difficulty);
         task.execute();
 
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         result.addResult(33);
         result.addResult(43);
         result.addResult(53);
-        result.addResult(63);
+        result.addResult(100);
         result.addResult(73);
         result.addResult(83);
         result.addResult(93);
@@ -138,17 +140,18 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void quizResultDone(View v){
+        fragmentManager.popBackStack("Category", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        for(int i = 0; i< fragmentManager.getBackStackEntryCount();i++){
+            fragmentManager.popBackStack();
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        if(categoryFragment.isVisible()){
-            setTitle("Kategori");
-            super.onBackPressed();
-        }
-        if(mainFragment.isVisible()){
-            setTitle("Quizone");
-            super.onBackPressed();
-        }
         if(quizFragment.isVisible()){
+        }else{
+            super.onBackPressed();
         }
     }
 
@@ -156,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -187,67 +190,6 @@ public class MainActivity extends AppCompatActivity {
             mFragmentView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
-
-    public class SaveResult extends AsyncTask<String, Void, String> {
-
-        private final Result result;
-
-        SaveResult(Result result) {
-            this.result = result;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String inputString = null;
-            try {
-                URL url = new URL(String.format("http://185.53.129.12/saveresult.php?userid="+result.getUserid()+
-                                                                                "&r1="+result.getSpecificResult(0)+
-                                                                                "&r2="+result.getSpecificResult(1)+
-                                                                                "&r3="+result.getSpecificResult(2)+
-                                                                                "&r4="+result.getSpecificResult(3)+
-                                                                                "&r5="+result.getSpecificResult(4)+
-                                                                                "&r6="+result.getSpecificResult(5)+
-                                                                                "&r7="+result.getSpecificResult(6)+
-                                                                                "&r8="+result.getSpecificResult(7)+
-                                                                                "&r9="+result.getSpecificResult(8)+
-                                                                                "&r10="+result.getSpecificResult(9)+
-                                                                                "&total="+result.getTotal() +
-                                                                                "&difficulty="+result.getDifficulty() +
-                                                                                "&category=4"+result.getCategory()));
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-                InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
-
-                inputString = bufferedReader.readLine();
-
-
-                urlConnection.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return inputString;
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-
-            showProgress(false);
-            int iResponse = Integer.parseInt(response);
-            if(iResponse>0){
-                Toast.makeText(getApplicationContext(), "sparad!", Toast.LENGTH_LONG).show();
-                result.setId(iResponse);
-            }
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            showProgress(false);
-        }
-    }
-
 
 
     public class FetchQuestions extends AsyncTask<String, Void, JSONObject> {
