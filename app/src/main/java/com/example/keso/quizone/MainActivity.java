@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
     public void startQuiz(){
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("Questions", questions);
+        bundle.putInt("Difficulty", difficulty);
+        bundle.putInt("Category", category);
+        bundle.putInt("UserID", user.getId());
         quizFragment = new QuizFragment();
         quizFragment.setArguments(bundle);
         fragmentManager.beginTransaction()

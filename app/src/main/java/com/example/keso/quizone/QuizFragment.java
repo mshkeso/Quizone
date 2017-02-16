@@ -32,6 +32,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     Question currentQuestion;
     Drawable bgDefault;
     CountDownTimer timer;
+    Result result;
     final int length_in_milliseconds = 10000;
     final int period_in_milliseconds = 25;
 
@@ -40,8 +41,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_question, container, false);
-
+        result = new Result();
         questions = getArguments().getParcelableArrayList("Questions");
+        result.setDifficulty(getArguments().getInt("Difficulty"));
+        result.setCategory(getArguments().getInt("Category"));
+        result.setUserid(getArguments().getInt("UserID"));
         mProgressBar=(ProgressBar)v.findViewById(R.id.progressBar);
         mProgressBar.setProgress(progress);
         question = (TextView) v.findViewById(R.id.textView);
@@ -117,6 +121,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void falseAnswer(Button b) {
+        result.addResult(0);
         animationStopper();
         b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.red));
         final long changeTime = 1000L;
@@ -153,6 +158,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void correctAnswer(Button b) {
+        result.addResult(progress/10);
         animationStopper();
         b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
         final long changeTime = 1000L;
@@ -194,6 +200,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void noAnswer() {
         final long changeTime = 1000L;
+        result.addResult(0);
         b1.postDelayed(new Runnable() {
             @Override
             public void run() {
