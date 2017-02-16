@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -155,6 +156,66 @@ public class MainActivity extends AppCompatActivity {
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mFragmentView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
+
+    public class SaveResult extends AsyncTask<String, Void, String> {
+
+        private final Result result;
+
+        SaveResult(Result result) {
+            this.result = result;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String inputString = null;
+            try {
+                URL url = new URL(String.format("http://185.53.129.12/saveresult.php?userid="+result.getUserid()+
+                                                                                "&r1="+result.getSpecificResult(0)+
+                                                                                "&r2="+result.getSpecificResult(1)+
+                                                                                "&r3="+result.getSpecificResult(2)+
+                                                                                "&r4="+result.getSpecificResult(3)+
+                                                                                "&r5="+result.getSpecificResult(4)+
+                                                                                "&r6="+result.getSpecificResult(5)+
+                                                                                "&r7="+result.getSpecificResult(6)+
+                                                                                "&r8="+result.getSpecificResult(7)+
+                                                                                "&r9="+result.getSpecificResult(8)+
+                                                                                "&r10="+result.getSpecificResult(9)+
+                                                                                "&total="+result.getTotal() +
+                                                                                "&difficulty="+result.getDifficulty() +
+                                                                                "&category=4"+result.getCategory()));
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+
+                inputString = bufferedReader.readLine();
+
+
+                urlConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return inputString;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+
+            showProgress(false);
+            int iResponse = Integer.parseInt(response);
+            if(iResponse>0){
+                Toast.makeText(getApplicationContext(), "sparad!", Toast.LENGTH_LONG).show();
+                result.setId(iResponse);
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
         }
     }
 
