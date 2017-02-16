@@ -1,12 +1,13 @@
 package com.example.keso.quizone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by KESO on 16/02/2017.
  */
 
-public class Result {
+public class Result implements Serializable {
     private int id;
     private int userid;
     private ArrayList<Integer> result = new ArrayList<>();

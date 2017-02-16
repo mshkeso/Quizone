@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:scaleY="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="390"
+        android:id="@+id/progressBar3" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Fråga 1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvQuestion"
+            android:gravity="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="34/100"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvResult"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

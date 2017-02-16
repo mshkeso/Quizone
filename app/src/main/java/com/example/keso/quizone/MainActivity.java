@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     CategoryFragment categoryFragment;
     DifficultyFragment difficultyFragment;
     QuizFragment quizFragment;
+    QuizResultFragment quizResultFragment;
     ArrayList<Question> questions = new ArrayList<>();
     User user;
     int category = 0;
@@ -109,6 +110,30 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, quizFragment)
                 .addToBackStack("quiz")
+                .commit();
+    }
+
+    public void testResult(View v){
+        Result result = new Result();
+        result.setCategory(1);
+        result.setDifficulty(1);
+        result.addResult(23);
+        result.addResult(33);
+        result.addResult(43);
+        result.addResult(53);
+        result.addResult(63);
+        result.addResult(73);
+        result.addResult(83);
+        result.addResult(93);
+        result.addResult(23);
+        result.addResult(3);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Result", result);
+        quizResultFragment = new QuizResultFragment();
+        quizResultFragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, quizResultFragment)
+                .addToBackStack("quizResult")
                 .commit();
     }
 
