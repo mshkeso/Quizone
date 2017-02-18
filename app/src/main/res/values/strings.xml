@@ -16,4 +16,16 @@
     </string>
     <string name="prompt_email">Email</string>
     <string name="quiz_count">/10</string>
+    <string-array name="categories">
+        <item>Visa för alla</item>
+        <item>Film</item>
+        <item>Musik</item>
+        <item>Sport</item>
+    </string-array>
+    <string-array name="difficulties">
+        <item>Visa för alla</item>
+        <item>Lätt</item>
+        <item>Medel</item>
+        <item>Svår</item>
+    </string-array>
 </resources>
