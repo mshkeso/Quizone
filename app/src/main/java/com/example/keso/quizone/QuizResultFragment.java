@@ -160,7 +160,7 @@ public class QuizResultFragment extends Fragment {
                         "&r10="+result.getSpecificResult(9)+
                         "&total="+result.getTotal() +
                         "&difficulty="+result.getDifficulty() +
-                        "&category=4"+result.getCategory()));
+                        "&category="+result.getCategory()));
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
