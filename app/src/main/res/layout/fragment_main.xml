@@ -14,13 +14,14 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:text="Button"
+        android:text="Topplista (work in progress)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button"
         android:layout_alignParentStart="true"
         android:id="@+id/button12"
         android:layout_alignParentEnd="true"
-        android:onClick="testResult" />
+        android:enabled="false"
+        android:onClick="showToplist" />
 
 </RelativeLayout>
