@@ -94,16 +94,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void endQuiz() {
         ((MainActivity)getActivity()).showQuizResult(result);
-        /*
-        QuizResultFragment quizResultFragment = new QuizResultFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Result", result);
-        quizResultFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, quizResultFragment)
-                .addToBackStack("quizResult")
-                .commit();*/
     }
+
 
 
     private void prepareQuestion() {

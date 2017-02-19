@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     DifficultyFragment difficultyFragment;
     QuizFragment quizFragment;
     QuizResultFragment quizResultFragment;
+    ToplistFragment toplistFragment;
     ArrayList<Question> questions = new ArrayList<>();
     User user;
     int category = 0;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         categoryFragment = new CategoryFragment();
         difficultyFragment = new DifficultyFragment();
         quizResultFragment = new QuizResultFragment();
+        toplistFragment = new ToplistFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mainFragment)
@@ -101,6 +103,17 @@ public class MainActivity extends AppCompatActivity {
         FetchQuestions task = new FetchQuestions(category, difficulty);
         task.execute();
 
+    }
+
+    public void showToplist(View v){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("User", user);
+        toplistFragment = new ToplistFragment();
+        toplistFragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, toplistFragment)
+                .addToBackStack("toplist")
+                .commit();
     }
 
     public void startQuiz(){
