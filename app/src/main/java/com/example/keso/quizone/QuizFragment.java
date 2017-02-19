@@ -118,10 +118,17 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         startTimer();
     }
 
+
     @Override
     public void onPause() {
         dialog.cancel();
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        getActivity().setTitle("Frågesport");
+        super.onResume();
     }
 
     private void falseAnswer(Button b) {

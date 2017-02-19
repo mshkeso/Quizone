@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Rank: 1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvRank"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:text="Användare: Smirc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvUsername"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:text="Poäng: 900"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPoints"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:text="Kategori: Film"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvCategory"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="Svårighetsgrad: Medel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:id="@+id/tvDifficulty"
+            android:layout_weight="1" />
+    </LinearLayout>
+
 
 </LinearLayout>

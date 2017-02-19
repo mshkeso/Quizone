@@ -14,7 +14,7 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:text="Topplista (work in progress)"
+        android:text="Topplista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button"

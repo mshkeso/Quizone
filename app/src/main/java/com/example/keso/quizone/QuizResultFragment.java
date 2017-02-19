@@ -54,6 +54,12 @@ public class QuizResultFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        getActivity().setTitle("Resultat");
+        super.onResume();
+    }
+
     private void populateList() {
         ResultAdapter adapter = new ResultAdapter(getActivity(), result.getResult());
         resultList.setAdapter(adapter);

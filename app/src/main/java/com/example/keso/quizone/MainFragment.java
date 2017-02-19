@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 public class MainFragment extends Fragment {
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -17,5 +18,9 @@ public class MainFragment extends Fragment {
         return v;
     }
 
-
+    @Override
+    public void onResume() {
+        getActivity().setTitle("Quizone");
+        super.onResume();
+    }
 }
