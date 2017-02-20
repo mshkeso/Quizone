@@ -12,6 +12,15 @@
 
     <!-- Login progress -->
 
+    <TextView
+        android:text="Registrerad!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:id="@+id/tvReg"
+        android:visibility="gone"
+        android:gravity="center"/>
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"

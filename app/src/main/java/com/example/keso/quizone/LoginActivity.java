@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AutoCompleteTextView rEmail;
     private EditText rPassword1;
     private EditText rPassword2;
+    private TextView tvReg;
 
 
     @Override
@@ -105,7 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        //skipLogin();
+        tvReg = (TextView) findViewById(R.id.tvReg);
+        skipLogin();
     }
 
     private void skipLogin(){
@@ -398,6 +400,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 rEmail.requestFocus();
             }else if(response.equals("1")){
                 dialog.cancel();
+                tvReg.setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(), "Registrerad!", Toast.LENGTH_LONG).show();
             }
 

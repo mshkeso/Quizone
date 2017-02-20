@@ -9,8 +9,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     QuizFragment quizFragment;
     QuizResultFragment quizResultFragment;
     ToplistFragment toplistFragment;
+    FAQFragment faqFragment;
     ArrayList<Question> questions = new ArrayList<>();
     User user;
     int category = 0;
@@ -52,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         difficultyFragment = new DifficultyFragment();
         quizResultFragment = new QuizResultFragment();
         toplistFragment = new ToplistFragment();
+        faqFragment = new FAQFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mainFragment)
@@ -61,6 +68,31 @@ public class MainActivity extends AppCompatActivity {
         quizFragment = new QuizFragment();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_faq:
+                showFAQ(null);
+                return true;
+
+            case R.id.action_logout:
+                onBackPressed();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 
     public void play(View v){
         setTitle("Kategori");
@@ -70,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showFAQ(View v){
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, faqFragment)
+                .addToBackStack("FAQ")
+                .commit();
+    }
 
     public void choseCategory(View v){
         setTitle("Svårighetsgrad");
