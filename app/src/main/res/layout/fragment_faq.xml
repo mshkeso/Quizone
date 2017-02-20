@@ -60,5 +60,11 @@
         android:background="@color/gray"
         android:layout_height="1dip" />
 
+    <Button
+        android:text="Maila oss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnMail" />
+
 
 </LinearLayout>
