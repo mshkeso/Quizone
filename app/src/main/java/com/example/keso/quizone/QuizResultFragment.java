@@ -1,9 +1,11 @@
 package com.example.keso.quizone;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ public class QuizResultFragment extends Fragment {
     TextView score;
     ListView resultList;
     Result result;
+    int amountRight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,13 +48,36 @@ public class QuizResultFragment extends Fragment {
         score = (TextView) v.findViewById(R.id.tvScore);
         resultList = (ListView) v.findViewById(R.id.listView);
         result = (Result) getArguments().getSerializable("Result");
+        amountRight = getArguments().getInt("amountRight");
+        if(amountRight==10){
+            ((MainActivity)getActivity()).addCoin(2);
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Grattis");
+            alertDialog.setMessage("Alla rätt!\nDu har vunnit 2 Quizcoins!");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
         result.calculateTotal();
         setTopInfo();
         populateList();
         ((MainActivity)getActivity()).showProgress(true);
         SaveResult task = new SaveResult(result);
         task.execute();
+        ((MainActivity) getActivity()).getSupportActionBar().hide();
+        ((MainActivity) getActivity()).showCoinView(false);
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        ((MainActivity) getActivity()).getSupportActionBar().show();
+        ((MainActivity) getActivity()).showCoinView(true);
+        super.onDestroy();
     }
 
     @Override

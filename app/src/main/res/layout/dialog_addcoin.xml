@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/coins_small"
+            android:id="@+id/coinSmall"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/coins_medium"
+            android:id="@+id/coinMedium"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/coins_large"
+            android:id="@+id/coinLarge"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/coins_extralarge"
+            android:id="@+id/coinXL"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:text="Avbryt"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:paddingTop="5dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_cancel" />
+
+</LinearLayout>

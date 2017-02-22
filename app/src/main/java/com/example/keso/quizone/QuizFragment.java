@@ -32,6 +32,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     Question currentQuestion;
     Drawable bgDefault;
     CountDownTimer timer;
+    int amountRight = 0;
     Result result;
     final int length_in_milliseconds = 10000;
     final int period_in_milliseconds = 25;
@@ -65,6 +66,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 .setMessage("Är du redo att starta frågesporten?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity)getActivity()).addCoin(-5);
                         startQuiz();
                     }
                 })
@@ -76,7 +78,17 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
         stopButtons();
+        ((MainActivity) getActivity()).getSupportActionBar().hide();
+        ((MainActivity) getActivity()).showCoinView(false);
         return v;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        ((MainActivity) getActivity()).getSupportActionBar().show();
+        ((MainActivity) getActivity()).showCoinView(true);
+        super.onDestroy();
     }
 
     private void startQuiz() {
@@ -93,7 +105,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     }
 
     private void endQuiz() {
-        ((MainActivity)getActivity()).showQuizResult(result);
+        ((MainActivity)getActivity()).showQuizResult(result, amountRight);
     }
 
 
@@ -170,6 +182,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
 
     private void correctAnswer(Button b) {
         result.addResult(100-(progress/4));
+        amountRight++;
         animationStopper();
         b.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.green));
         final long changeTime = 1000L;

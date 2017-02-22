@@ -1,6 +1,7 @@
 package com.example.keso.quizone;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by KESO on 05/02/2017.
@@ -11,12 +12,14 @@ public class User implements Serializable{
     private String username;
     private String email;
     private int quizcoin;
+    private Date date;
 
-    public User(int id, String username, String email, int quizcoin) {
+    public User(int id, String username, String email, int quizcoin, Date date) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.quizcoin = quizcoin;
+        this.date = date;
     }
 
     public int getId() {
@@ -51,4 +54,11 @@ public class User implements Serializable{
         this.quizcoin = quizcoin;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

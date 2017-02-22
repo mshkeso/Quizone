@@ -16,6 +16,9 @@
     </string>
     <string name="prompt_email">Email</string>
     <string name="quiz_count">/10</string>
+    <string name="medium">Medel \nPris: 5QC</string>
+    <string name="easy">Lätt \nPris: 5QC</string>
+    <string name="hard">Svår \nPris: 5QC</string>
     <string-array name="categories">
         <item>Visa för alla</item>
         <item>Film</item>

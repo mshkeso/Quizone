@@ -87,8 +87,15 @@ public class ToplistFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        ((MainActivity) getActivity()).showCoinView(true);
+        super.onDestroy();
+    }
+
+    @Override
     public void onResume() {
         getActivity().setTitle("Topplista");
+        ((MainActivity) getActivity()).showCoinView(false);
         super.onResume();
     }
 

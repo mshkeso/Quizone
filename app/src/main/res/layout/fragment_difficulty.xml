@@ -4,21 +4,21 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="Lätt"
+        android:text="@string/easy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button5"
         android:onClick="choseDifficulty"/>
 
     <Button
-        android:text="Medel"
+        android:text="@string/medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button6"
         android:onClick="choseDifficulty" />
 
     <Button
-        android:text="Svår"
+        android:text="@string/hard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button7"
