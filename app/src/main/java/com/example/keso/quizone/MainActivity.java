@@ -339,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(quizFragment.isVisible()){
         }else if(quizResultFragment.isVisible()){
+            quizResultDone(null);
         }else{
             super.onBackPressed();
         }
