@@ -37,6 +37,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     final int length_in_milliseconds = 10000;
     final int period_in_milliseconds = 25;
     AlertDialog dialog;
+    Boolean goBack = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +62,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         b3.setOnClickListener(this);
         b4.setOnClickListener(this);
         bgDefault = b1.getBackground();
+
         dialog = new AlertDialog.Builder(getContext())
                 .setTitle("Starta quiz?")
                 .setMessage("Är du redo att starta frågesporten?")
@@ -68,11 +70,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                     public void onClick(DialogInterface dialog, int which) {
                         ((MainActivity)getActivity()).addCoin(-5);
                         startQuiz();
+                        goBack = false;
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         getFragmentManager().popBackStack();
+                        goBack = false;
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -80,7 +84,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                getFragmentManager().popBackStack();
+                if(goBack) {
+                    getFragmentManager().popBackStack();
+                }
             }
         });
         stopButtons();
