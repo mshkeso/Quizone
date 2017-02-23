@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mUsername;
+    private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mUsername = (AutoCompleteTextView) findViewById(R.id.username);
+        mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -113,8 +113,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //skipLogin();
     }
 
+    @Override
+    protected void onResume() {
+        mUsernameView.setText("");
+        mPasswordView.setText("");
+        super.onResume();
+    }
+
     private void skipLogin(){
-        mUsername.setText("Smirc");
+        mUsernameView.setText("Smirc");
         mPasswordView.setText("test");
         attemptLogin();
     }
@@ -189,11 +196,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Reset errors.
-        mUsername.setError(null);
+        mUsernameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String username = mUsername.getText().toString();
+        String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -201,12 +208,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check for a valid username address.
         if (TextUtils.isEmpty(username)) {
-            mUsername.setError(getString(R.string.error_field_required));
-            focusView = mUsername;
+            mUsernameView.setError(getString(R.string.error_field_required));
+            focusView = mUsernameView;
             cancel = true;
         }else if(!TextUtils.isEmpty(username) && !isUsernameValid(username)){
-            mUsername.setError(getString(R.string.error_invalid_username));
-            focusView = mUsername;
+            mUsernameView.setError(getString(R.string.error_invalid_username));
+            focusView = mUsernameView;
             cancel = true;
         }else if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
@@ -232,7 +239,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isPasswordValid(String password) {
-        Pattern ps = Pattern.compile("^[a-zA-Z]+$");
+        Pattern ps = Pattern.compile("^[a-zA-ZåäöÅÄÖ0-9]+$");
         Matcher ms = ps.matcher(password);
         boolean response = ms.matches();
         if(password.length() < 4 || password.length() > 15){
@@ -246,7 +253,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isUsernameValid(String username) {
-        Pattern ps = Pattern.compile("^[a-zA-Z]+$");
+        Pattern ps = Pattern.compile("^[a-zA-ZåäöÅÄÖ0-9]+$");
         Matcher ms = ps.matcher(username);
         boolean response = ms.matches();
         if(username.length() < 4 || username.length() > 15){
@@ -332,7 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mUsername.setAdapter(adapter);
+        mUsernameView.setAdapter(adapter);
     }
 
 
@@ -468,8 +475,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (userJSON!=null) {
                 loginIntent(userJSON);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                mUsernameView.setError(getString(R.string.error_incorrect_password));
+                mUsernameView.requestFocus();
             }
         }
 
