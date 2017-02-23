@@ -91,7 +91,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:text="Version 0.3.2"
+                android:text="Version 0.3.4"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
