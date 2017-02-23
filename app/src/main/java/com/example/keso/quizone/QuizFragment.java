@@ -77,6 +77,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                getFragmentManager().popBackStack();
+            }
+        });
         stopButtons();
         ((MainActivity) getActivity()).getSupportActionBar().hide();
         ((MainActivity) getActivity()).showCoinView(false);
